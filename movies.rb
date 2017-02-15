@@ -31,21 +31,29 @@ def db_connect(digit)
         all_records
         select_choice
       when "2"
+        all_records
         p "Please enter name of movie"
         mv_name = gets.chomp
         p "Please enter release year of movie"
         year = gets.chomp
-        @con.exec "INSERT INTO Movies (name, year_release) VALUES ('#{mv_name}',#{year.to_i})"
-        p "New record added successfully"
-        all_records
-        select_choice
+        if mv_name != "" && year != ""
+          @con.exec "INSERT INTO Movies (name, year_release) VALUES ('#{mv_name}',#{year.to_i})"
+          p "New record added successfully"
+          select_choice
+        else
+          p "Please enter name and year of release. Name and year of release not be blank."
+        end
       when "3"
+        all_records
         p "Please enter either name nor year_release of particular movie that you want's to remove"
         remove_record = gets.chomp
-        @con.exec "delete from movies where name = '#{remove_record}' OR year_release = #{remove_record}"
-        p "Remove single record successfully"
-        all_records
-        select_choice
+        if remove_record != ""
+          @con.exec "delete from movies where name = '#{remove_record}' OR year_release = #{remove_record}"
+          p "Removed single record successfully"
+          select_choice
+        else
+          p "Please enter name or year of release for deleting record. Name or year of release not be blank."
+        end
       else
         p "Thank you"
     end
