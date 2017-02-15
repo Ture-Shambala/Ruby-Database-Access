@@ -4,10 +4,11 @@ require 'pry'
 
 def select_choice
   puts "=============Select your choice============="
-  p "1 : Show all movies records"
-  p "2 : Add new movie record"
-  p "3 : Remove particular record"
-  p "4 : Exit"
+  p "1 : Show all movies records "
+  p "2 : Add new movie record "
+  p "3 : Remove particular record "
+  p "4 : Update particular record "
+  p "5 : Exit "
   puts "============================================"
   digit=gets.chomp
   db_connect(digit)
@@ -53,6 +54,19 @@ def db_connect(digit)
           select_choice
         else
           p "Please enter name or year of release for deleting record. Name or year of release not be blank."
+        end
+      when "4"
+        all_records
+        p "Please enter id of particular movie that you want's to update"
+        update_record = gets.chomp
+        if update_record != ""
+          p "Please enter name of particular movie that you want's to update"
+          updated_name = gets.chomp
+          @con.exec "UPDATE movies SET NAME  = '#{updated_name}' WHERE ID = #{update_record}"
+          p "Updated single record successfully"
+          select_choice
+        else
+          p "Please enter id for updating record. ID can not be blank."
         end
       else
         p "Thank you"
